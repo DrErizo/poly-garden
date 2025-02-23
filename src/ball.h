@@ -1,12 +1,17 @@
+#pragma once
 #include <cstdint>
+#include <sys/types.h>
 #include "../libs/glm/glm/glm.hpp"
 class Ball{
 public:
-    Ball(int16_t posX, int16_t posY, uint16_t radius);
+    Ball(float posX, float posY, uint16_t radius);
+    Ball();
     void setPosition(int16_t x, int16_t y);
+    float x,y;
+    ushort size;
+    ushort angle;
 private:
-    uint16_t size;
-    glm::vec2 direction;
     glm::vec2 velocity;
-    int16_t x,y;
+    float verticies[4];
+    uint8_t indecies[6];
 };

@@ -1,8 +1,11 @@
+#pragma once
+
 #include <vector>
-#include "shader.h"
+#include "../libs/glm/glm/glm.hpp"
+#include "polyGarden.h"
 class PolyGardenRenderer{
 public:
-    PolyGardenRenderer();
+    PolyGardenRenderer(PolyGarden &garden);
     ~PolyGardenRenderer();
     void render();
     void updatePhysics(float delta);

@@ -3,12 +3,6 @@
 #include "DEBUG.h"
 #include <GLFW/glfw3.h>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-    if(DEBUG){
-        std::cout << width << " x " <<height << "\n";
-    }
-    glViewport(0, 0, width, height);
-}
 PolyGardenWindow::PolyGardenWindow(unsigned int width, unsigned int height) : screenWidth(width), screenHeight(height){
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -22,7 +16,34 @@ PolyGardenWindow::PolyGardenWindow(unsigned int width, unsigned int height) : sc
     }
     glfwMakeContextCurrent(this->window);
     glfwSetWindowUserPointer(this->window,this);
-    glfwSetFramebufferSizeCallback(this->window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(this->window, PolyGardenWindow::framebuffer_size_callback);
+}
+void PolyGardenWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    
+    PolyGardenWindow* instance = static_cast<PolyGardenWindow*>(glfwGetWindowUserPointer(window));
+
+    if (instance) {
+        if (DEBUG) {
+            std::cout << width << " x " << height << "\n";
+        }
+        
+        instance->screenWidth = width;
+        instance->screenHeight = height;
+
+        float windowAspect = width / height;
+        float contentAspect = 16.0f / 9.0f;
+        if (windowAspect > contentAspect) {
+            // Window is wider than content, letterbox top and bottom.
+            float scale = height / (float)height * contentAspect;
+            glViewport(0, (height - width * scale) / 2, width, width * scale);
+        } else {
+            // Window is taller than content, letterbox left and right.
+            float scale = width / (float)height * (1.0f / contentAspect);
+            glViewport((width - height * scale) / 2, 0, height * scale, height);
+        }
+        // Set up an orthographic projection matrix to match the content's aspect ratio.
+        glOrtho(-contentAspect, contentAspect, -1, 1, -1, 1);
+    }
 }
 
 PolyGardenWindow::~PolyGardenWindow(){

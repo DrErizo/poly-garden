@@ -1,9 +1,12 @@
 #include <chrono>
+#include <cstdlib>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "window.h"
 #include "renderer.h"
+#include "polyGarden.h"
 #include "DEBUG.h"
+#include "shader.h"
 
 void processInput(GLFWwindow *window);
 
@@ -13,13 +16,17 @@ auto frameBegin = std::chrono::high_resolution_clock::now();
 auto frameEnd = std::chrono::high_resolution_clock::now();
 
 int main(){
+    srand(time(NULL));
     PolyGardenWindow window(1920, 1080);
-    PolyGardenRenderer renderer;
-    Shader shader("../shaders/shader.vs","../shaders/shader.fs");;
+    PolyGarden garden(10,1920,1080,3);
+    PolyGardenRenderer renderer(garden);
+    Shader shader("../shaders/shader.vs.glsl", "../shaders/shader.fs.glsl");
+
     while (!glfwWindowShouldClose(window.getWindow())){
         frameBegin = std::chrono::high_resolution_clock::now();
         processInput(window.getWindow());
         shader.setMat4("uTransform", renderer.getTransform());
+        shader.setFloat("uDeltaTime", deltaTime);
 
         shader.use();
         renderer.updatePhysics(deltaTime);
@@ -29,7 +36,6 @@ int main(){
         glfwPollEvents();
         frameEnd = std::chrono::high_resolution_clock::now();
         float deltaTime = std::chrono::duration<float>(frameEnd - frameBegin).count();
-
         if(DEBUG){
             printf("fps: %g\n",1 / deltaTime);
         }
