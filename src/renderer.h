@@ -8,12 +8,10 @@ public:
     PolyGardenRenderer(PolyGarden &garden);
     ~PolyGardenRenderer();
     void render();
+    void rebuildBuffers();
     void updatePhysics(float delta);
-    inline glm::mat4 &getTransform(){
-        return this->uTrans;
-    }
 private:
-    glm::mat4 uTrans;
+    PolyGarden &garden;
     void assignVertexAttribPointers();
     void createBuffers();
     unsigned int VAO, VBO, EBO;

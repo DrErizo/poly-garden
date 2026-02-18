@@ -4,7 +4,10 @@
 
 class PolyGarden{
 public:
-    PolyGarden(int amount, uint16_t width, uint16_t height, uint16_t size);
+    PolyGarden(){};
+    PolyGarden(int amount, uint16_t width, uint16_t height);
+    void updatePhysics(float delta);
     int amount; 
-    std::vector<Ball> ballz;
+    ushort width, height;
+    std::vector<Ball> balls;
 };

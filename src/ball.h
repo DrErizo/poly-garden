@@ -4,14 +4,14 @@
 #include "../libs/glm/glm/glm.hpp"
 class Ball{
 public:
-    Ball(float posX, float posY, uint16_t radius);
+    Ball(glm::vec2 pos, uint16_t radius, glm::vec3 color, float speed);
     Ball();
     void setPosition(int16_t x, int16_t y);
-    float x,y;
-    ushort size;
-    ushort angle;
-private:
-    glm::vec2 velocity;
-    float verticies[4];
-    uint8_t indecies[6];
+    glm::vec3 color;
+    glm::vec2 pos;
+    glm::vec2 vel;
+    uint16_t size;
+    float speed;
+    float health;
+    float damage;
 };

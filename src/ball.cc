@@ -3,13 +3,15 @@
 #include <sys/types.h>
 #include "ball.h"
 Ball::Ball(){};
-Ball::Ball(float posX, float posY, uint16_t radius){
-    this->x = posX;
-    this->y = posY;
-    this->size = radius;
-    this->angle = rand() / (float)RAND_MAX * M_PI * 2.0f;
+Ball::Ball(glm::vec2 pos, uint16_t size,glm::vec3 color, float speed) {
+    this->pos = pos;
+    this->size = size;
+    this->vel = glm::vec2(((float)rand() / RAND_MAX) * 2.0f - 1.0f,((float)rand() / RAND_MAX) * 2.0f - 1.0f);
+    this->speed = speed;
+    this->color = color;
 };
 void Ball::setPosition(int16_t x, int16_t y){
-    this->x = x;
-    this->y = y;
+    this->pos.x = x;
+    this->pos.y = y;
 };
+
