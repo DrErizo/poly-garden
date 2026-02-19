@@ -6,7 +6,7 @@ class PolyGarden{
 public:
     PolyGarden(){};
     PolyGarden(int amount, uint16_t width, uint16_t height);
-    void updatePhysics(float delta);
+    void updatePhysics(float delta, float windowWidth, float windowHeight);
     int amount; 
     ushort width, height;
     std::vector<Ball> balls;

@@ -43,7 +43,7 @@ void PolyGardenRenderer::rebuildBuffers() {
         data.size = ball.size;
         data.color = ball.color;
         ballsData.push_back(data);
-        printf("x: %g, y: %g", ball.pos.x, ball.pos.y);
+        //printf("x: %g, y: %g\n", ball.pos.x, ball.pos.y);
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO);

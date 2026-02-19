@@ -17,20 +17,21 @@ auto frameEnd = std::chrono::high_resolution_clock::now();
 int main(){
     srand(time(NULL));
     PolyGardenWindow window(1920, 1080);
-    PolyGarden garden(100,1920,1080);
+    PolyGarden garden(100,window.screenWidth,window.screenHeight);
     PolyGardenRenderer renderer(garden);
     Shader shader("../shaders/shader.vs.glsl", "../shaders/shader.fs.glsl");
-
+    shader.use();
+    unsigned int uWindowWidthLocation = glGetUniformLocation(shader.ID, "uWindowSize");
+    glfwSwapInterval(0);
+    
     while (!glfwWindowShouldClose(window.getWindow())){
         frameBegin = std::chrono::high_resolution_clock::now();
         processInput(window.getWindow());
-
-        garden.updatePhysics(deltaTime);
+        glUniform2f(uWindowWidthLocation, window.screenWidth, window.screenHeight);
+        garden.updatePhysics(deltaTime, window.screenWidth, window.screenHeight);
         renderer.rebuildBuffers();
-        shader.use();
         renderer.render();
         glfwSwapBuffers(window.getWindow());
-        glfwSwapInterval(0);
         glfwPollEvents();
         frameEnd = std::chrono::high_resolution_clock::now();
         deltaTime = std::chrono::duration<float>(frameEnd - frameBegin).count();
